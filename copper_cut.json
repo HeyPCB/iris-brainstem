@@ -1,0 +1,651 @@
+{
+  "method": "Adapted from boards/quack_core/copper_cut.py (same method; the links are listed in copper.py).",
+  "raster_mm": 0.1,
+  "copper_um": {
+    "outer": 35.0,
+    "inner": 17.5,
+    "barrel_plating": 25.0
+  },
+  "beyond_pads_mm": 1.0,
+  "links": [
+    {
+      "net": "VBUS_PD",
+      "from": [
+        "J1.A4",
+        "J1.A9",
+        "J1.B4",
+        "J1.B9"
+      ],
+      "to": [
+        "F1.1"
+      ],
+      "terminals_found": {
+        "from": [
+          "J1.A4",
+          "J1.A9",
+          "J1.B4",
+          "J1.B9"
+        ],
+        "to": [
+          "F1.1"
+        ]
+      },
+      "cut_mm_35um_equivalent": 1.15,
+      "cut_by_layer_mm": {
+        "F.Cu": 1.15
+      },
+      "ipc2221_amps_10C": 2.6,
+      "ipc2221_amps_20C": 3.6,
+      "ipc2221_amps_10C_2oz_outer": 4.4,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 6.23,
+        "cut_by_layer_mm": {
+          "F.Cu": 6.23
+        },
+        "ipc2221_amps_10C": 9.0,
+        "ipc2221_amps_20C": 12.2,
+        "ipc2221_amps_10C_2oz_outer": 14.9
+      }
+    },
+    {
+      "net": "VIN_F",
+      "from": [
+        "F1.2"
+      ],
+      "to": [
+        "R1.1"
+      ],
+      "terminals_found": {
+        "from": [
+          "F1.2"
+        ],
+        "to": [
+          "R1.1"
+        ]
+      },
+      "cut_mm_35um_equivalent": 4.24,
+      "cut_by_layer_mm": {
+        "F.Cu": 4.24
+      },
+      "ipc2221_amps_10C": 6.8,
+      "ipc2221_amps_20C": 9.2,
+      "ipc2221_amps_10C_2oz_outer": 11.3,
+      "beyond_pads": {
+        "note": "the terminals lie within 2.0 mm of each other: the link is the pads' own gap"
+      }
+    },
+    {
+      "net": "VIN",
+      "from": [
+        "R1.2"
+      ],
+      "to": [
+        "U3.3",
+        "C7.1",
+        "C8.1",
+        "U4.3",
+        "C14.1",
+        "C15.1"
+      ],
+      "terminals_found": {
+        "from": [
+          "R1.2"
+        ],
+        "to": [
+          "C14.1",
+          "C15.1",
+          "C7.1",
+          "C8.1",
+          "U3.3",
+          "U4.3"
+        ]
+      },
+      "cut_mm_35um_equivalent": 5.09,
+      "cut_by_layer_mm": {
+        "F.Cu": 5.09
+      },
+      "ipc2221_amps_10C": 7.8,
+      "ipc2221_amps_20C": 10.6,
+      "ipc2221_amps_10C_2oz_outer": 12.9,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 6.31,
+        "cut_by_layer_mm": {
+          "In2.Cu": 0.25,
+          "barrels": 6.06
+        },
+        "ipc2221_amps_10C": 9.3,
+        "ipc2221_amps_20C": 12.6,
+        "ipc2221_amps_10C_2oz_outer": 9.3
+      }
+    },
+    {
+      "net": "VIN",
+      "from": [
+        "R1.2"
+      ],
+      "to": [
+        "U3.3",
+        "C7.1",
+        "C8.1"
+      ],
+      "terminals_found": {
+        "from": [
+          "R1.2"
+        ],
+        "to": [
+          "C7.1",
+          "C8.1",
+          "U3.3"
+        ]
+      },
+      "cut_mm_35um_equivalent": 3.08,
+      "cut_by_layer_mm": {
+        "In2.Cu": 0.39,
+        "barrels": 2.69
+      },
+      "ipc2221_amps_10C": 5.5,
+      "ipc2221_amps_20C": 7.5,
+      "ipc2221_amps_10C_2oz_outer": 5.5,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 3.08,
+        "cut_by_layer_mm": {
+          "In2.Cu": 0.39,
+          "barrels": 2.69
+        },
+        "ipc2221_amps_10C": 5.5,
+        "ipc2221_amps_20C": 7.5,
+        "ipc2221_amps_10C_2oz_outer": 5.5
+      }
+    },
+    {
+      "net": "SW_6V0",
+      "from": [
+        "U3.2"
+      ],
+      "to": [
+        "L1.1"
+      ],
+      "terminals_found": {
+        "from": [
+          "U3.2"
+        ],
+        "to": [
+          "L1.1"
+        ]
+      },
+      "cut_mm_35um_equivalent": 0.8,
+      "cut_by_layer_mm": {
+        "F.Cu": 0.8
+      },
+      "ipc2221_amps_10C": 2.0,
+      "ipc2221_amps_20C": 2.8,
+      "ipc2221_amps_10C_2oz_outer": 3.4,
+      "beyond_pads": {
+        "note": "the terminals lie within 2.0 mm of each other: the link is the pads' own gap"
+      }
+    },
+    {
+      "net": "6V0_SERVO",
+      "from": [
+        "L1.2"
+      ],
+      "to": [
+        "J10.2",
+        "J11.2",
+        "J12.2",
+        "J13.2",
+        "J14.2",
+        "J15.2",
+        "J16.2",
+        "J17.2",
+        "J18.2",
+        "J19.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "L1.2"
+        ],
+        "to": [
+          "J10.2",
+          "J11.2",
+          "J12.2",
+          "J13.2",
+          "J14.2",
+          "J15.2",
+          "J16.2",
+          "J17.2",
+          "J18.2",
+          "J19.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 6.09,
+      "cut_by_layer_mm": {
+        "F.Cu": 0.7,
+        "barrels": 5.39
+      },
+      "ipc2221_amps_10C": 10.0,
+      "ipc2221_amps_20C": 13.5,
+      "ipc2221_amps_10C_2oz_outer": 11.2,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 6.09,
+        "cut_by_layer_mm": {
+          "F.Cu": 0.7,
+          "barrels": 5.39
+        },
+        "ipc2221_amps_10C": 10.0,
+        "ipc2221_amps_20C": 13.5,
+        "ipc2221_amps_10C_2oz_outer": 11.2
+      }
+    },
+    {
+      "net": "6V0_SERVO",
+      "from": [
+        "L1.2"
+      ],
+      "to": [
+        "J10.2",
+        "J11.2",
+        "J12.2",
+        "J13.2",
+        "J14.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "L1.2"
+        ],
+        "to": [
+          "J10.2",
+          "J11.2",
+          "J12.2",
+          "J13.2",
+          "J14.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 6.09,
+      "cut_by_layer_mm": {
+        "F.Cu": 0.7,
+        "barrels": 5.39
+      },
+      "ipc2221_amps_10C": 10.0,
+      "ipc2221_amps_20C": 13.5,
+      "ipc2221_amps_10C_2oz_outer": 11.2,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 6.09,
+        "cut_by_layer_mm": {
+          "F.Cu": 0.7,
+          "barrels": 5.39
+        },
+        "ipc2221_amps_10C": 10.0,
+        "ipc2221_amps_20C": 13.5,
+        "ipc2221_amps_10C_2oz_outer": 11.2
+      }
+    },
+    {
+      "net": "6V0_SERVO",
+      "from": [
+        "L1.2"
+      ],
+      "to": [
+        "J15.2",
+        "J16.2",
+        "J17.2",
+        "J18.2",
+        "J19.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "L1.2"
+        ],
+        "to": [
+          "J15.2",
+          "J16.2",
+          "J17.2",
+          "J18.2",
+          "J19.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 6.09,
+      "cut_by_layer_mm": {
+        "F.Cu": 0.7,
+        "barrels": 5.39
+      },
+      "ipc2221_amps_10C": 10.0,
+      "ipc2221_amps_20C": 13.5,
+      "ipc2221_amps_10C_2oz_outer": 11.2,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 6.09,
+        "cut_by_layer_mm": {
+          "F.Cu": 0.7,
+          "barrels": 5.39
+        },
+        "ipc2221_amps_10C": 10.0,
+        "ipc2221_amps_20C": 13.5,
+        "ipc2221_amps_10C_2oz_outer": 11.2
+      }
+    },
+    {
+      "net": "6V0_SERVO",
+      "from": [
+        "L1.2",
+        "C11.1",
+        "C12.1",
+        "C13.1",
+        "C1.1"
+      ],
+      "to": [
+        "J15.2",
+        "J16.2",
+        "J17.2",
+        "J18.2",
+        "J19.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "C1.1",
+          "C11.1",
+          "C12.1",
+          "C13.1",
+          "L1.2"
+        ],
+        "to": [
+          "J15.2",
+          "J16.2",
+          "J17.2",
+          "J18.2",
+          "J19.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 6.09,
+      "cut_by_layer_mm": {
+        "F.Cu": 0.7,
+        "barrels": 5.39
+      },
+      "ipc2221_amps_10C": 10.0,
+      "ipc2221_amps_20C": 13.5,
+      "ipc2221_amps_10C_2oz_outer": 11.2,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 6.09,
+        "cut_by_layer_mm": {
+          "F.Cu": 0.7,
+          "barrels": 5.39
+        },
+        "ipc2221_amps_10C": 10.0,
+        "ipc2221_amps_20C": 13.5,
+        "ipc2221_amps_10C_2oz_outer": 11.2
+      }
+    },
+    {
+      "net": "6V0_SERVO",
+      "from": [
+        "L1.2",
+        "C11.1",
+        "C12.1",
+        "C13.1",
+        "C1.1"
+      ],
+      "to": [
+        "J10.2",
+        "J11.2",
+        "J12.2",
+        "J13.2",
+        "J14.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "C1.1",
+          "C11.1",
+          "C12.1",
+          "C13.1",
+          "L1.2"
+        ],
+        "to": [
+          "J10.2",
+          "J11.2",
+          "J12.2",
+          "J13.2",
+          "J14.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 6.09,
+      "cut_by_layer_mm": {
+        "F.Cu": 0.7,
+        "barrels": 5.39
+      },
+      "ipc2221_amps_10C": 10.0,
+      "ipc2221_amps_20C": 13.5,
+      "ipc2221_amps_10C_2oz_outer": 11.2,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 6.09,
+        "cut_by_layer_mm": {
+          "F.Cu": 0.7,
+          "barrels": 5.39
+        },
+        "ipc2221_amps_10C": 10.0,
+        "ipc2221_amps_20C": 13.5,
+        "ipc2221_amps_10C_2oz_outer": 11.2
+      }
+    },
+    {
+      "net": "6V0_SERVO",
+      "from": [
+        "J10.2",
+        "J11.2",
+        "J12.2",
+        "J13.2",
+        "J14.2"
+      ],
+      "to": [
+        "J15.2",
+        "J16.2",
+        "J17.2",
+        "J18.2",
+        "J19.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "J10.2",
+          "J11.2",
+          "J12.2",
+          "J13.2",
+          "J14.2"
+        ],
+        "to": [
+          "J15.2",
+          "J16.2",
+          "J17.2",
+          "J18.2",
+          "J19.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 7.61,
+      "cut_by_layer_mm": {
+        "In2.Cu": 2.82,
+        "B.Cu": 4.78
+      },
+      "ipc2221_amps_10C": 10.0,
+      "ipc2221_amps_20C": 13.5,
+      "ipc2221_amps_10C_2oz_outer": 14.8,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 14.05,
+        "cut_by_layer_mm": {
+          "In2.Cu": 9.27,
+          "B.Cu": 4.78
+        },
+        "ipc2221_amps_10C": 13.4,
+        "ipc2221_amps_20C": 18.2,
+        "ipc2221_amps_10C_2oz_outer": 18.3
+      }
+    },
+    {
+      "net": "GND",
+      "from": [
+        "J10.3",
+        "J11.3",
+        "J12.3",
+        "J13.3",
+        "J14.3",
+        "J15.3",
+        "J16.3",
+        "J17.3",
+        "J18.3",
+        "J19.3"
+      ],
+      "to": [
+        "U3.1",
+        "C11.2",
+        "C12.2",
+        "C13.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "J10.3",
+          "J11.3",
+          "J12.3",
+          "J13.3",
+          "J14.3",
+          "J15.3",
+          "J16.3",
+          "J17.3",
+          "J18.3",
+          "J19.3"
+        ],
+        "to": [
+          "C11.2",
+          "C12.2",
+          "C13.2",
+          "U3.1"
+        ]
+      },
+      "cut_mm_35um_equivalent": 8.63,
+      "cut_by_layer_mm": {
+        "F.Cu": 8.63
+      },
+      "ipc2221_amps_10C": 11.4,
+      "ipc2221_amps_20C": 15.5,
+      "ipc2221_amps_10C_2oz_outer": 18.9,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 10.66,
+        "cut_by_layer_mm": {
+          "F.Cu": 10.66
+        },
+        "ipc2221_amps_10C": 13.3,
+        "ipc2221_amps_20C": 18.0,
+        "ipc2221_amps_10C_2oz_outer": 22.0
+      }
+    },
+    {
+      "net": "GND",
+      "from": [
+        "U3.1",
+        "C7.2",
+        "C8.2"
+      ],
+      "to": [
+        "J1.A1",
+        "J1.A12",
+        "J1.B1",
+        "J1.B12"
+      ],
+      "terminals_found": {
+        "from": [
+          "C7.2",
+          "C8.2",
+          "U3.1"
+        ],
+        "to": [
+          "J1.A1",
+          "J1.A12",
+          "J1.B1",
+          "J1.B12"
+        ]
+      },
+      "cut_mm_35um_equivalent": 2.97,
+      "cut_by_layer_mm": {
+        "F.Cu": 2.97
+      },
+      "ipc2221_amps_10C": 5.3,
+      "ipc2221_amps_20C": 7.1,
+      "ipc2221_amps_10C_2oz_outer": 8.7,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 8.44,
+        "cut_by_layer_mm": {
+          "F.Cu": 5.74,
+          "barrels": 2.69
+        },
+        "ipc2221_amps_10C": 13.4,
+        "ipc2221_amps_20C": 18.2,
+        "ipc2221_amps_10C_2oz_outer": 18.9
+      }
+    },
+    {
+      "net": "5V2",
+      "from": [
+        "L2.2"
+      ],
+      "to": [
+        "D2.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "L2.2"
+        ],
+        "to": [
+          "D2.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 1.04,
+      "cut_by_layer_mm": {
+        "F.Cu": 1.04
+      },
+      "ipc2221_amps_10C": 2.5,
+      "ipc2221_amps_20C": 3.3,
+      "ipc2221_amps_10C_2oz_outer": 4.1,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 1.04,
+        "cut_by_layer_mm": {
+          "F.Cu": 1.04
+        },
+        "ipc2221_amps_10C": 2.5,
+        "ipc2221_amps_20C": 3.3,
+        "ipc2221_amps_10C_2oz_outer": 4.1
+      }
+    },
+    {
+      "net": "5V_SYS",
+      "from": [
+        "D2.1",
+        "D3.1"
+      ],
+      "to": [
+        "J5.1",
+        "J5.2"
+      ],
+      "terminals_found": {
+        "from": [
+          "D2.1",
+          "D3.1"
+        ],
+        "to": [
+          "J5.1",
+          "J5.2"
+        ]
+      },
+      "cut_mm_35um_equivalent": 0.99,
+      "cut_by_layer_mm": {
+        "F.Cu": 0.99
+      },
+      "ipc2221_amps_10C": 2.4,
+      "ipc2221_amps_20C": 3.2,
+      "ipc2221_amps_10C_2oz_outer": 3.9,
+      "beyond_pads": {
+        "cut_mm_35um_equivalent": 0.99,
+        "cut_by_layer_mm": {
+          "F.Cu": 0.99
+        },
+        "ipc2221_amps_10C": 2.4,
+        "ipc2221_amps_20C": 3.2,
+        "ipc2221_amps_10C_2oz_outer": 3.9
+      }
+    }
+  ]
+}

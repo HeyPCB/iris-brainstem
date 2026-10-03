@@ -1,0 +1,2100 @@
+{
+  "name": "iris_brainstem",
+  "title": "Iris Brainstem - power, USB and servo hub (B2) for the Iris robot head",
+  "revision": "A",
+  "brief": "Iris Brainstem is board B2 of Iris, a human-eyed robot head (Iris design spec v0.1, section 4.2). It sits flat in the head's base (64 x 80 mm, 4 layers, F face up at H Z -60). A USB-C PD sink (CH224K, CFG pins hard-tied for 9 V) feeds a 5 A fuse and a 10 mOhm shunt read by an INA226 (0x40); a TPS565208 makes 6V0_SERVO (5 A, off until SERVO_EN) for ten 5264-type servo ports in two banks of five (J10-J19, D V G, servo IDs per spec 5), and a TPS56339 makes 5V2, diode-ORed with a second, data-only USB-C's VBUS into 5V_SYS for B1 Cortex. The SCS bus driver is the Feetech / Waveshare auto-direction circuit (74LVC1G126 + 74LVC1G125 + MMBT3906) on 3V3_B2 from an AP2112K. A MAX98357A drives a speaker on a JST SH-2. Two JST SH harness headers (H1 SH-10, H2 SH-7) carry power, USB, the bus, I2C and I2S to B1 exactly as spec 5 binds them.",
+  "blocks": [
+    {
+      "block": "brainstem_mount_holes",
+      "as": "holes",
+      "title": "M2 holes on the base plate bosses",
+      "refs": {
+        "H1?": "H1",
+        "H2?": "H2",
+        "H3?": "H3",
+        "H4?": "H4"
+      }
+    },
+    {
+      "block": "brainstem_servo_bank",
+      "as": "bank_l",
+      "title": "Servo ports J10-J14, robot-left bank",
+      "refs": {
+        "J1?": "J10",
+        "J2?": "J11",
+        "J3?": "J12",
+        "J4?": "J13",
+        "J5?": "J14",
+        "C?": "C1",
+        "D?": "D4"
+      },
+      "nets": {
+        "DATA": "BUS_DATA",
+        "VSERVO": "6V0_SERVO"
+      }
+    },
+    {
+      "block": "brainstem_servo_bank",
+      "as": "bank_r",
+      "title": "Servo ports J15-J19, robot-right bank",
+      "refs": {
+        "J1?": "J15",
+        "J2?": "J16",
+        "J3?": "J17",
+        "J4?": "J18",
+        "J5?": "J19",
+        "C?": "C2",
+        "D?": "D5"
+      },
+      "nets": {
+        "DATA": "BUS_DATA",
+        "VSERVO": "6V0_SERVO"
+      }
+    },
+    {
+      "block": "brainstem_pd_input",
+      "as": "pd",
+      "title": "USB-C PD 9 V input: CH224K, TVS, 5 A fuse, 10 mOhm shunt",
+      "refs": {
+        "J?": "J1",
+        "U?": "U1",
+        "D1?": "D1",
+        "F?": "F1",
+        "R1?": "R1",
+        "C1?": "C3"
+      },
+      "nets": {
+        "VBUS_PD": "VBUS_PD",
+        "PD_CC1": "PD_CC1",
+        "PD_CC2": "PD_CC2",
+        "PD_DP": "PD_DP",
+        "PD_DM": "PD_DM",
+        "PD_VDD": "PD_VDD",
+        "PD_VSNS": "PD_VSNS",
+        "PD_LED": "PD_LED",
+        "PD_PG": "PD_PG",
+        "VIN_F": "VIN_F"
+      }
+    },
+    {
+      "block": "brainstem_ina226",
+      "as": "ina",
+      "title": "INA226 VIN monitor (0x40)",
+      "refs": {
+        "U?": "U2"
+      },
+      "nets": {
+        "VIN_F": "VIN_F",
+        "INA_INP": "INA_INP",
+        "INA_INN": "INA_INN",
+        "INA_VBUS": "INA_VBUS",
+        "3V3_B2": "3V3_B2",
+        "I2C_SDA": "I2C_SDA",
+        "I2C_SCL": "I2C_SCL",
+        "nINT": "nINT"
+      }
+    },
+    {
+      "block": "brainstem_servo_buck",
+      "as": "sbuck",
+      "title": "6V0_SERVO buck TPS565208 (SERVO_EN)",
+      "refs": {
+        "U?": "U3",
+        "L?": "L1"
+      },
+      "nets": {
+        "SW": "SW_6V0",
+        "BST": "BST_6V0",
+        "VSERVO": "6V0_SERVO",
+        "FB": "FB_6V0",
+        "EN": "EN_6V0",
+        "SERVO_EN": "SERVO_EN"
+      }
+    },
+    {
+      "block": "brainstem_logic_buck",
+      "as": "lbuck",
+      "title": "5V2 buck TPS56339",
+      "refs": {
+        "U?": "U4",
+        "L?": "L2"
+      },
+      "nets": {
+        "SW": "SW_5V2",
+        "BOOT": "BOOT_5V2",
+        "BST": "BST_5V2",
+        "V5V2": "5V2",
+        "FB": "FB_5V2"
+      }
+    },
+    {
+      "block": "brainstem_5v_sys",
+      "as": "sys5v",
+      "title": "5V_SYS diode-OR and 3V3_B2 LDO",
+      "refs": {
+        "D1?": "D2",
+        "D2?": "D3",
+        "U?": "U6"
+      },
+      "nets": {
+        "V5V2": "5V2",
+        "VBUS_DATA": "VBUS_DATA",
+        "V5_SYS": "5V_SYS",
+        "3V3_B2": "3V3_B2"
+      }
+    },
+    {
+      "block": "brainstem_usb_data",
+      "as": "usbd",
+      "title": "USB-C data port with USBLC6",
+      "refs": {
+        "J?": "J2",
+        "U?": "U5"
+      },
+      "nets": {
+        "VBUS_DATA": "VBUS_DATA",
+        "CC1": "USB_CC1",
+        "CC2": "USB_CC2",
+        "USB_DP": "USB_DP",
+        "USB_DM": "USB_DN"
+      }
+    },
+    {
+      "block": "brainstem_servo_bus",
+      "as": "bus",
+      "title": "Half-duplex SCS bus driver",
+      "refs": {
+        "U1?": "U7",
+        "U2?": "U8",
+        "Q?": "Q1"
+      },
+      "nets": {
+        "TXD": "BUS_TX",
+        "TXB": "BUS_TXB",
+        "TXEN": "BUS_TXEN",
+        "DATA": "BUS_DATA",
+        "RXD": "BUS_RX",
+        "3V3_B2": "3V3_B2"
+      }
+    },
+    {
+      "block": "brainstem_amp",
+      "as": "amp",
+      "title": "MAX98357A speaker amplifier",
+      "refs": {
+        "U?": "U9",
+        "J?": "J7"
+      },
+      "nets": {
+        "V5_SYS": "5V_SYS",
+        "AMP_VDD": "AMP_VDD",
+        "SD_MODE": "AMP_SD_MODE",
+        "BCLK": "I2S_BCLK",
+        "LRCLK": "I2S_WS",
+        "DIN": "I2S_AMP_SD",
+        "OUTP": "SPK_P",
+        "OUTN": "SPK_N"
+      }
+    },
+    {
+      "block": "brainstem_harness",
+      "as": "harn",
+      "title": "H1 (SH-10) and H2 (SH-7) to B1 Cortex",
+      "refs": {
+        "J1?": "J5",
+        "J2?": "J6"
+      },
+      "nets": {
+        "USB_DM": "USB_DN",
+        "USB_DP": "USB_DP",
+        "BUS_TX": "BUS_TX",
+        "BUS_RX": "BUS_RX",
+        "SERVO_EN": "SERVO_EN",
+        "I2C_SDA": "I2C_SDA",
+        "I2C_SCL": "I2C_SCL",
+        "nINT": "nINT",
+        "I2S_BCLK": "I2S_BCLK",
+        "I2S_WS": "I2S_WS",
+        "I2S_AMP_SD": "I2S_AMP_SD",
+        "V5_SYS": "5V_SYS"
+      }
+    },
+    {
+      "block": "brainstem_testpads",
+      "as": "tp",
+      "title": "Test pads",
+      "nets": {
+        "VSERVO": "6V0_SERVO",
+        "V5V2": "5V2",
+        "V5_SYS": "5V_SYS",
+        "DATA": "BUS_DATA",
+        "3V3_B2": "3V3_B2",
+        "SERVO_EN": "SERVO_EN"
+      }
+    }
+  ],
+  "pwrFlags": [
+    "GND",
+    "VIN",
+    "5V_SYS",
+    "PD_VDD",
+    "AMP_VDD"
+  ],
+  "netClasses": [
+    {
+      "name": "PDIN",
+      "nets": [
+        "VBUS_PD",
+        "VIN_F",
+        "VIN"
+      ],
+      "track": 0.6,
+      "clearance": 0.15,
+      "via": [
+        0.6,
+        0.3
+      ],
+      "currentA": 4.3,
+      "why": "the 9 V input path, J1 VBUS through F1 and R1 to both buck inputs (spec 6: 0.68 A typical, about 4.3 A for milliseconds). 0.6 mm is the width of the receptacle's VBUS pads and of the TPS565208 / TPS56339 VIN pins (pd_brick: nothing wider enters between the HRO's GND and SBU pads). The tracks only connect the path; board.zones carry the current (see README)"
+    },
+    {
+      "name": "SERVO",
+      "nets": [
+        "6V0_SERVO"
+      ],
+      "track": 0.8,
+      "clearance": 0.2,
+      "via": [
+        0.8,
+        0.4
+      ],
+      "currentA": 5.0,
+      "why": "the servo rail from L1 to the 2 x 470 uF and the ten 5264 ports (burst 4.6 A, buck limit 5 A). 0.8 mm still enters the 0603 feedback resistor's pad; In2 is poured 6V0_SERVO and board.zones lay the bank strips after routing"
+    },
+    {
+      "name": "SWNODE",
+      "nets": [
+        "SW_6V0",
+        "SW_5V2"
+      ],
+      "track": 0.6,
+      "clearance": 0.2,
+      "via": [
+        0.6,
+        0.3
+      ],
+      "currentA": 5.0,
+      "why": "the two switch nodes: 0.6 mm is the SOT-23-6 SW pin; each node is a few millimetres from pin to inductor, widened by an F.Cu zone after routing"
+    },
+    {
+      "name": "RAIL5V",
+      "nets": [
+        "5V2",
+        "5V_SYS"
+      ],
+      "track": 0.6,
+      "clearance": 0.15,
+      "via": [
+        0.6,
+        0.3
+      ],
+      "currentA": 1.6,
+      "why": "5V2 and 5V_SYS (5V_SYS peak 1.56 A est., spec 6): 0.6 mm, about 1.65 A at a 10 C rise on 1 oz outer copper. A 0.8 mm class was tried (2026-10-03): Freerouting then ran both rails the long way on In2 (0.5 oz), which rates lower, so the class stays 0.6 mm and board.zones widen the routed path"
+    },
+    {
+      "name": "USBVBUS",
+      "nets": [
+        "VBUS_DATA"
+      ],
+      "track": 0.6,
+      "clearance": 0.15,
+      "via": [
+        0.6,
+        0.3
+      ],
+      "currentA": 0.9,
+      "why": "the data port's VBUS to its Schottky: 0.6 mm is the receptacle's VBUS pad width (nothing wider enters between its GND and SBU pads, pd_brick); USB 2.0 ports give 0.5 A, about 1.6 A at a 10 C rise"
+    }
+  ],
+  "board": {
+    "width": 64.0,
+    "height": 80.0,
+    "layers": 4,
+    "origin": [
+      100.0,
+      100.0
+    ],
+    "shape": {
+      "type": "polygon",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          64.0,
+          0
+        ],
+        [
+          64.0,
+          80.0
+        ],
+        [
+          0,
+          80.0
+        ]
+      ],
+      "fillet": 3.0,
+      "why": "spec 4.2 / fig/board_briefs.json B2: 64.0 x 80.0 mm, fillet 3.0 (binding outline)"
+    },
+    "rules": {
+      "clearance": 0.15,
+      "track": 0.2,
+      "via": [
+        0.6,
+        0.3
+      ],
+      "edge_clearance": 0.5,
+      "hole_to_hole": 0.5,
+      "min_through_hole": 0.3,
+      "min_track": 0.1,
+      "why_rules": "0.15 mm clearance and 0.2 mm default track inside JLC's multilayer window (0.09 mm); 0.6 / 0.3 mm vias"
+    },
+    "planes": {
+      "In1.Cu": "GND"
+    },
+    "pours": {
+      "In2.Cu": "6V0_SERVO"
+    },
+    "keepouts": [
+      {
+        "name": "boss_h1",
+        "circle": {
+          "at": [
+            4.0,
+            4.0
+          ],
+          "d": 5.5
+        },
+        "layers": "all",
+        "no": [
+          "tracks",
+          "vias"
+        ],
+        "why": "M2 screw head on top and the base-plate boss below (H (X -34, Y +28))"
+      },
+      {
+        "name": "boss_h2",
+        "circle": {
+          "at": [
+            60.0,
+            4.0
+          ],
+          "d": 5.5
+        },
+        "layers": "all",
+        "no": [
+          "tracks",
+          "vias"
+        ],
+        "why": "M2 screw head on top and the base-plate boss below (H (X -34, Y -28))"
+      },
+      {
+        "name": "boss_h3",
+        "circle": {
+          "at": [
+            4.0,
+            76.0
+          ],
+          "d": 5.5
+        },
+        "layers": "all",
+        "no": [
+          "tracks",
+          "vias"
+        ],
+        "why": "M2 screw head on top and the base-plate boss below (H (X -106, Y +28))"
+      },
+      {
+        "name": "boss_h4",
+        "circle": {
+          "at": [
+            60.0,
+            76.0
+          ],
+          "d": 5.5
+        },
+        "layers": "all",
+        "no": [
+          "tracks",
+          "vias"
+        ],
+        "why": "M2 screw head on top and the base-plate boss below (H (X -106, Y -28))"
+      },
+      {
+        "name": "bcu_bank_left",
+        "rect": [
+          0.6,
+          12.5,
+          23.0,
+          45.0
+        ],
+        "layers": [
+          "B.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "B.Cu under the left servo bank and the 6V0 node (L1, its output caps, C1) is the 6V0_SERVO zone: a signal track there would cut it into islands"
+      },
+      {
+        "name": "bcu_front_bar",
+        "rect": [
+          0.6,
+          7.3,
+          63.4,
+          12.5
+        ],
+        "layers": [
+          "B.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "the 6V0_SERVO bar on B.Cu along the front edge that joins the two bank strips (it runs below the bosses' keep-outs)"
+      },
+      {
+        "name": "bcu_bank_right",
+        "rect": [
+          51.0,
+          12.5,
+          63.4,
+          58.0
+        ],
+        "layers": [
+          "B.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "B.Cu under the right servo bank: 6V0 zone"
+      },
+      {
+        "name": "bcu_spine",
+        "rect": [
+          45.0,
+          12.5,
+          51.0,
+          63.6
+        ],
+        "layers": [
+          "B.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "the 5V_SYS spine on B.Cu from the diode-OR to H1"
+      },
+      {
+        "name": "bcu_spine_rear",
+        "rect": [
+          33.4,
+          57.6,
+          51.0,
+          63.6
+        ],
+        "layers": [
+          "B.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "the 5V_SYS spine's rear arm under D2, C20 and D3"
+      },
+      {
+        "name": "bcu_vin",
+        "rect": [
+          0.6,
+          45.0,
+          45.0,
+          58.0
+        ],
+        "layers": [
+          "B.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "the VIN corridor on B.Cu from the shunt to both buck inputs (and the left bank's rear ports' 6V0)"
+      },
+      {
+        "name": "bcu_input",
+        "rect": [
+          9.5,
+          58.0,
+          22.5,
+          72.0
+        ],
+        "layers": [
+          "B.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "B.Cu under the input column (J1 VBUS, F1, R1): VBUS_PD zone"
+      },
+      {
+        "name": "in2_input",
+        "rect": [
+          9.6,
+          51.6,
+          22.5,
+          72.0
+        ],
+        "layers": [
+          "In2.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "keeps In2 signal tracks out of the input column so the VBUS_PD and VIN zones find via sites (a stitch via must clear other nets' tracks on every layer)"
+      },
+      {
+        "name": "in2_buck6",
+        "rect": [
+          26.8,
+          43.1,
+          34.6,
+          49.2
+        ],
+        "layers": [
+          "In2.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "the servo buck's input via fields (VIN beside the caps' VIN pads, GND beside their GND pads)"
+      },
+      {
+        "name": "in2_out6",
+        "rect": [
+          11.9,
+          36.9,
+          20.0,
+          45.0
+        ],
+        "layers": [
+          "In2.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "the servo buck's output via fields (GND left of the output caps, 6V0 between them and L1)"
+      },
+      {
+        "name": "in2_buck5",
+        "rect": [
+          40.6,
+          55.6,
+          44.6,
+          61.7
+        ],
+        "layers": [
+          "In2.Cu"
+        ],
+        "no": [
+          "tracks"
+        ],
+        "why": "the 5V2 buck's VIN via field; kept off its GND side, where the USB pair needs In2 to leave the rear right (with it there the USB D- line stayed open, 2026-10-03)"
+      }
+    ],
+    "zones": [
+      {
+        "name": "vbus_pd",
+        "net": "VBUS_PD",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          9.6,
+          64.4,
+          21.6,
+          71.7
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 1,
+        "why": "J1's two VBUS pads, the TVS cathode and F1's input pad on both outer layers; it touches the receptacle's VBUS pads from above"
+      },
+      {
+        "name": "vin_f",
+        "net": "VIN_F",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          14.6,
+          57.6,
+          19.7,
+          62.7
+        ],
+        "priority": 2,
+        "why": "F1's output pad to the shunt's fuse-side pad (1.4 mm apart) and the INA226 IN+ filter resistor, on F.Cu: a B.Cu copy found no via site and was an island"
+      },
+      {
+        "name": "vin_col",
+        "net": "VIN",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "polygon": [
+          [
+            9.6,
+            51.6
+          ],
+          [
+            19.7,
+            51.6
+          ],
+          [
+            19.7,
+            57.4
+          ],
+          [
+            11.2,
+            57.4
+          ],
+          [
+            11.2,
+            63.4
+          ],
+          [
+            5.4,
+            63.4
+          ],
+          [
+            5.4,
+            59.0
+          ],
+          [
+            9.6,
+            59.0
+          ]
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 3,
+        "why": "the shunt's VIN pad, C3's + pad and the INA226 IN-/VBUS taps on both outer layers, stitched"
+      },
+      {
+        "name": "vin_band",
+        "net": "VIN",
+        "layers": [
+          "B.Cu"
+        ],
+        "rect": [
+          9.6,
+          44.9,
+          44.8,
+          57.4
+        ],
+        "priority": 2,
+        "why": "VIN on B.Cu from the input column to both buck inputs (signal tracks are kept off this band). Its priority is below vin_col, vin_u3 and vin_u4 so that their B.Cu fills, and with them their stitch vias, survive where they overlap it"
+      },
+      {
+        "name": "vin_u3",
+        "net": "VIN",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          26.8,
+          43.1,
+          30.4,
+          47.6
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 10,
+        "why": "U3's input caps' VIN pads (x 29.95) and the VIN pin, stitched down to the B.Cu band beside them"
+      },
+      {
+        "name": "vin_u4",
+        "net": "VIN",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          40.6,
+          55.6,
+          44.6,
+          60.9
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 10,
+        "why": "U4's input caps' VIN pads and the VIN pin, stitched down to the B.Cu band"
+      },
+      {
+        "name": "v6_b",
+        "net": "6V0_SERVO",
+        "layers": [
+          "B.Cu"
+        ],
+        "polygon": [
+          [
+            0.6,
+            7.3
+          ],
+          [
+            63.4,
+            7.3
+          ],
+          [
+            63.4,
+            58.0
+          ],
+          [
+            51.0,
+            58.0
+          ],
+          [
+            51.0,
+            12.5
+          ],
+          [
+            23.0,
+            12.5
+          ],
+          [
+            23.0,
+            44.7
+          ],
+          [
+            7.4,
+            44.7
+          ],
+          [
+            7.4,
+            58.0
+          ],
+          [
+            0.6,
+            58.0
+          ]
+        ],
+        "priority": 5,
+        "why": "6V0_SERVO on B.Cu as a U: a strip under each bank of five ports (with the node under L1 and C1 on the left) joined by a bar along the front edge, below the boss keep-outs"
+      },
+      {
+        "name": "v6_node",
+        "net": "6V0_SERVO",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "polygon": [
+          [
+            14.6,
+            31.6
+          ],
+          [
+            19.9,
+            31.6
+          ],
+          [
+            19.9,
+            36.7
+          ],
+          [
+            23.0,
+            36.7
+          ],
+          [
+            23.0,
+            44.7
+          ],
+          [
+            17.0,
+            44.7
+          ],
+          [
+            17.0,
+            36.9
+          ],
+          [
+            14.6,
+            36.9
+          ]
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 6,
+        "why": "L1's 6V0 pad, the output caps' 6V0 pads and C1's + pad on F.Cu, with a column of vias between the caps and L1 to the B.Cu strip and bar and to the In2 pour"
+      },
+      {
+        "name": "v6_bank_l",
+        "net": "6V0_SERVO",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          4.6,
+          12.5,
+          7.45,
+          57.0
+        ],
+        "priority": 7,
+        "why": "the left bank's V pins (x 6.0) on F.Cu, between the DATA pins (x 3.5) and the G pins (x 8.5)"
+      },
+      {
+        "name": "v6_bank_r",
+        "net": "6V0_SERVO",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          56.55,
+          12.5,
+          59.4,
+          57.0
+        ],
+        "priority": 7,
+        "why": "the right bank's V pins (x 58.0) on F.Cu, between its G pins (x 55.5) and DATA pins (x 60.5)"
+      },
+      {
+        "name": "v6_c2",
+        "net": "6V0_SERVO",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          44.6,
+          31.6,
+          51.0,
+          37.0
+        ],
+        "priority": 8,
+        "why": "C2's + pad on F.Cu (the B.Cu under it is the 5V_SYS spine)"
+      },
+      {
+        "name": "gnd_out6",
+        "net": "GND",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          11.9,
+          36.9,
+          15.6,
+          45.0
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 9,
+        "why": "the servo buck's output caps' GND pads joined solid and stitched to the In1 plane right beside them (the B.Cu under them is 6V0)"
+      },
+      {
+        "name": "gnd_in6",
+        "net": "GND",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          31.4,
+          43.1,
+          34.6,
+          49.2
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 9,
+        "why": "the servo buck's input caps' GND pads (x 31.85) joined solid and stitched to In1 beside them"
+      },
+      {
+        "name": "gnd_in5",
+        "net": "GND",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          45.4,
+          55.6,
+          48.6,
+          61.7
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 9,
+        "why": "the 5V2 buck's input caps' GND pads joined solid and stitched to In1"
+      },
+      {
+        "name": "gnd_front",
+        "net": "GND",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          6.8,
+          0.6,
+          57.2,
+          12.4
+        ],
+        "stitch": 2.4,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 0,
+        "why": "GND stitching along the front strip (headers, amplifier, bus driver), where B.Cu is ground: any board.zones GND zone stops the plan's own stitcher, so the zones stitch GND themselves"
+      },
+      {
+        "name": "gnd_mid",
+        "net": "GND",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          23.2,
+          12.6,
+          50.8,
+          25.8
+        ],
+        "stitch": 2.4,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 0,
+        "why": "GND stitching in the open middle (test-pad row), where B.Cu is ground"
+      },
+      {
+        "name": "gnd_rear",
+        "net": "GND",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          22.6,
+          58.2,
+          57.0,
+          79.4
+        ],
+        "stitch": 2.4,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 0,
+        "why": "GND stitching round the CH224K, the data port and the 5V_SYS parts, where B.Cu is ground"
+      },
+      {
+        "name": "v5_spine",
+        "net": "5V_SYS",
+        "layers": [
+          "B.Cu"
+        ],
+        "polygon": [
+          [
+            41.5,
+            12.7
+          ],
+          [
+            50.8,
+            12.7
+          ],
+          [
+            50.8,
+            63.4
+          ],
+          [
+            33.6,
+            63.4
+          ],
+          [
+            33.6,
+            61.2
+          ],
+          [
+            45.4,
+            61.2
+          ],
+          [
+            45.4,
+            15.2
+          ],
+          [
+            41.5,
+            15.2
+          ]
+        ],
+        "priority": 12,
+        "why": "the 5V_SYS spine on B.Cu: a 5.4 mm column from the rear (D3, and D2 through an arm along y 61.2-63.4 that stays clear of U4's VIN via field) to just behind H1, where it turns under H1's 5V_SYS pins; signal tracks are kept off it"
+      },
+      {
+        "name": "v5_front",
+        "net": "5V_SYS",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          41.5,
+          6.0,
+          45.0,
+          15.2
+        ],
+        "priority": 12,
+        "why": "H1's 5V_SYS pins (1 and 2) and C28 on F.Cu, down to the spine's front end"
+      },
+      {
+        "name": "v5_link_front",
+        "net": "5V_SYS",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          41.5,
+          12.7,
+          45.0,
+          15.2
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 13,
+        "why": "vias from the spine's front end up to v5_front, on H1's side of the USB_DP track that runs down x 45.1 (a link right of it joined nothing, 2026-10-03)"
+      },
+      {
+        "name": "v5_link_rear",
+        "net": "5V_SYS",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          48.9,
+          58.2,
+          54.7,
+          63.4
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 13,
+        "why": "D3's cathode on F.Cu stitched down to the spine"
+      },
+      {
+        "name": "v5_link_d2",
+        "net": "5V_SYS",
+        "layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "rect": [
+          34.0,
+          59.0,
+          37.4,
+          63.4
+        ],
+        "stitch": 1.2,
+        "via": [
+          0.6,
+          0.3
+        ],
+        "priority": 13,
+        "why": "D2's cathode on F.Cu stitched down to the spine's rear arm"
+      },
+      {
+        "name": "sw_6v0",
+        "net": "SW_6V0",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          28.3,
+          40.5,
+          29.45,
+          41.5
+        ],
+        "priority": 11,
+        "why": "fills the 0.8 mm gap between L1's pad 1 and U3's SW pin solid"
+      },
+      {
+        "name": "sw_5v2",
+        "net": "SW_5V2",
+        "layers": [
+          "F.Cu"
+        ],
+        "rect": [
+          41.3,
+          53.0,
+          43.45,
+          54.0
+        ],
+        "priority": 11,
+        "why": "fills the gap between L2's pad 1 and U4's SW pin solid"
+      },
+      {
+        "name": "v5v2_out",
+        "net": "5V2",
+        "layers": [
+          "F.Cu"
+        ],
+        "polygon": [
+          [
+            31.9,
+            51.6
+          ],
+          [
+            36.6,
+            51.6
+          ],
+          [
+            36.6,
+            55.9
+          ],
+          [
+            33.0,
+            55.9
+          ],
+          [
+            33.0,
+            60.4
+          ],
+          [
+            30.4,
+            60.4
+          ],
+          [
+            30.4,
+            55.9
+          ],
+          [
+            31.9,
+            55.9
+          ]
+        ],
+        "priority": 14,
+        "why": "L2's output pad, the two 22 uF and D2's anode on F.Cu: the routed 0.6 mm track alone measured 0.51 mm at the min-cut (1.5 A at 10 C) against 5V_SYS's 1.56 A peak. The outline stays left of VIN's F.Cu track to U4 (x 33.5 and y 56.66) so no island forms beyond it"
+      }
+    ],
+    "notes": "Frame (spec 4.2, binding): F face up at H Z = -60.0; H Y = 32 - x, H X = -30 - y (mm from the outline's top-left corner). y = 0 is the front edge (toward the face), y = 80 the rear edge (back of the head). 4 layers: F.Cu / In1 GND plane / In2 routing, then a 6V0_SERVO pour / B.Cu, plus board.zones on the power path."
+  },
+  "placement": {
+    "holes:H1?": {
+      "lock": [
+        4.0,
+        4.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "M2 hole on the base-plate boss at H (X -34, Y +28) (spec 4.2, fig/board_briefs.json)"
+    },
+    "holes:H2?": {
+      "lock": [
+        60.0,
+        4.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "M2 hole on the base-plate boss at H (X -34, Y -28) (spec 4.2, fig/board_briefs.json)"
+    },
+    "holes:H3?": {
+      "lock": [
+        4.0,
+        76.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "M2 hole on the base-plate boss at H (X -106, Y +28) (spec 4.2, fig/board_briefs.json)"
+    },
+    "holes:H4?": {
+      "lock": [
+        60.0,
+        76.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "M2 hole on the base-plate boss at H (X -106, Y -28) (spec 4.2, fig/board_briefs.json)"
+    },
+    "pd:J?": {
+      "edge": "bottom",
+      "x": -15.0,
+      "overhang": 0.0,
+      "why": "J1 USB-C PWR centred at x 17 (spec zone x 12-22, H Y +15), mouth flush with the rear edge (y 80, H X -110)"
+    },
+    "usbd:J?": {
+      "edge": "bottom",
+      "x": 15.0,
+      "overhang": 0.0,
+      "why": "J2 USB-C DATA centred at x 47 (spec zone x 42-52, H Y -15), mouth flush with the rear edge"
+    },
+    "amp:J?": {
+      "lock": [
+        13.0,
+        3.4
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J7 speaker SH-2 at the front edge (spec zone x 10-16), mouth forward; its tabs end 0.6 mm inside the edge"
+    },
+    "harn:J2?": {
+      "lock": [
+        23.5,
+        3.4
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J6 H2 SH-7 at the front edge next to the amplifier (its I2S pins 5-7 face it), mouth forward"
+    },
+    "harn:J1?": {
+      "lock": [
+        38.5,
+        3.4
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J5 H1 SH-10 at the front edge right of H2, mouth forward; USB, bus and SERVO_EN pins toward the board's middle"
+    },
+    "bank_l:J1?": {
+      "lock": [
+        3.5,
+        16.5
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "J10 ID2 PAN L: robot-left bank (spec zone x 1-8, y 14-62), pin 1 (DATA) outboard at x 3.5, V at x 6.0, G at x 8.5; 9.5 mm pitch"
+    },
+    "bank_l:J2?": {
+      "lock": [
+        3.5,
+        26.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "J11 ID5 ULID L: robot-left bank (spec zone x 1-8, y 14-62), pin 1 (DATA) outboard at x 3.5, V at x 6.0, G at x 8.5; 9.5 mm pitch"
+    },
+    "bank_l:J3?": {
+      "lock": [
+        3.5,
+        35.5
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "J12 ID7 LLID L: robot-left bank (spec zone x 1-8, y 14-62), pin 1 (DATA) outboard at x 3.5, V at x 6.0, G at x 8.5; 9.5 mm pitch"
+    },
+    "bank_l:J4?": {
+      "lock": [
+        3.5,
+        45.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "J13 ID9 BROW L: robot-left bank (spec zone x 1-8, y 14-62), pin 1 (DATA) outboard at x 3.5, V at x 6.0, G at x 8.5; 9.5 mm pitch"
+    },
+    "bank_l:J5?": {
+      "lock": [
+        3.5,
+        54.5
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "J14 ID3 TILT: robot-left bank (spec zone x 1-8, y 14-62), pin 1 (DATA) outboard at x 3.5, V at x 6.0, G at x 8.5; 9.5 mm pitch"
+    },
+    "bank_r:J1?": {
+      "lock": [
+        60.5,
+        15.2
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J15 ID1 PAN R: robot-right bank, the left bank mirrored (pin 1 DATA outboard at x 60.5), bodies level with the left bank's"
+    },
+    "bank_r:J2?": {
+      "lock": [
+        60.5,
+        24.7
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J16 ID4 ULID R: robot-right bank, the left bank mirrored (pin 1 DATA outboard at x 60.5), bodies level with the left bank's"
+    },
+    "bank_r:J3?": {
+      "lock": [
+        60.5,
+        34.2
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J17 ID6 LLID R: robot-right bank, the left bank mirrored (pin 1 DATA outboard at x 60.5), bodies level with the left bank's"
+    },
+    "bank_r:J4?": {
+      "lock": [
+        60.5,
+        43.7
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J18 ID8 BROW R: robot-right bank, the left bank mirrored (pin 1 DATA outboard at x 60.5), bodies level with the left bank's"
+    },
+    "bank_r:J5?": {
+      "lock": [
+        60.5,
+        53.2
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "J19 SPARE: robot-right bank, the left bank mirrored (pin 1 DATA outboard at x 60.5), bodies level with the left bank's"
+    },
+    "pd:F?": {
+      "lock": [
+        17.0,
+        64.0
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "F1 5 A straight above J1: pad 1 (VBUS_PD) toward the receptacle"
+    },
+    "pd:R1?": {
+      "lock": [
+        17.0,
+        57.2
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "R1 10 mOhm shunt straight above F1, VIN_F pad toward the fuse"
+    },
+    "pd:D1?": {
+      "lock": [
+        12.5,
+        65.0
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "D1 SMAJ15A beside the fuse's input pad: cathode (pad 1) at y 67 on the VBUS_PD zone, anode toward GND"
+    },
+    "pd:C1?": {
+      "lock": [
+        7.0,
+        64.0
+      ],
+      "from_center": false,
+      "rot": 270,
+      "why": "C3 470 uF VIN bulk behind the left bank, + pad (y 61.3) toward the shunt's VIN pad; 2 mm clear of J14 so its D / V / G letters fit under it"
+    },
+    "pd:R4?": {
+      "lock": [
+        20.86,
+        62.13
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "CH224K support row above U1 (VDD resistor, VDD cap, LED and its resistor), where the placer put it, 0.25 mm lower so the LED (D6) has room for its PD OK word beside the SS34 D2's outline"
+    },
+    "pd:R2?": {
+      "lock": [
+        22.86,
+        62.13
+      ],
+      "from_center": false,
+      "rot": 270,
+      "why": "CH224K support row above U1 (VDD resistor, VDD cap, LED and its resistor), where the placer put it, 0.25 mm lower so the LED (D6) has room for its PD OK word beside the SS34 D2's outline"
+    },
+    "pd:C2?": {
+      "lock": [
+        24.86,
+        62.13
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "CH224K support row above U1 (VDD resistor, VDD cap, LED and its resistor), where the placer put it, 0.25 mm lower so the LED (D6) has room for its PD OK word beside the SS34 D2's outline"
+    },
+    "pd:D2?": {
+      "lock": [
+        28.14,
+        62.13
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "CH224K support row above U1 (VDD resistor, VDD cap, LED and its resistor), where the placer put it, 0.25 mm lower so the LED (D6) has room for its PD OK word beside the SS34 D2's outline"
+    },
+    "pd:U?": {
+      "lock": [
+        25.5,
+        66.5
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "U1 CH224K right of the fuse; DP/DM at its lower left, CC1/CC2 lower right, near J1's centre pads"
+    },
+    "ina:R1?": {
+      "lock": [
+        20.6,
+        58.66
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "IN+ filter resistor on the shunt's VIN_F pad (Kelvin tap)"
+    },
+    "ina:R2?": {
+      "lock": [
+        20.6,
+        55.74
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "IN- filter resistor on the shunt's VIN pad (Kelvin tap)"
+    },
+    "ina:R3?": {
+      "at": [
+        20.6,
+        53.4
+      ],
+      "why": "VBUS resistor from VIN",
+      "rot": 0
+    },
+    "ina:U?": {
+      "at": [
+        26.0,
+        56.5
+      ],
+      "why": "INA226 next to its filter resistors"
+    },
+    "sbuck:U?": {
+      "lock": [
+        31.0,
+        41.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "U3 TPS565208: GND/SW/VIN on its left, VBST/EN/VFB on its right"
+    },
+    "sbuck:L?": {
+      "lock": [
+        24.3,
+        41.0
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "L1 3.3 uH left of U3: pad 1 (SW) 0.8 mm from the SW pin, pad 2 (6V0) toward the output caps"
+    },
+    "sbuck:C5?": {
+      "lock": [
+        16.5,
+        38.6
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "output 22 uF; 6V0 pad toward L1, GND pad toward the GND via field at x 13"
+    },
+    "sbuck:C6?": {
+      "lock": [
+        16.5,
+        41.0
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "output 22 uF"
+    },
+    "sbuck:C7?": {
+      "lock": [
+        16.5,
+        43.4
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "output 22 uF"
+    },
+    "sbuck:C1?": {
+      "lock": [
+        30.9,
+        44.25
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "input 10 uF under U3: VIN pad (x 29.95) under the VIN pin, GND pad (x 31.85) under the IC's centre"
+    },
+    "sbuck:C2?": {
+      "lock": [
+        30.9,
+        46.35
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "second input 10 uF stacked under the first"
+    },
+    "sbuck:C3?": {
+      "lock": [
+        30.9,
+        48.2
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "input 100 nF under the 10 uF pair"
+    },
+    "sbuck:C4?": {
+      "lock": [
+        31.0,
+        38.3
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "bootstrap 100 nF across VBST (top right) and SW"
+    },
+    "sbuck:R1?": {
+      "at": [
+        36.4,
+        41.95
+      ],
+      "why": "feedback divider top (68 k) level with VFB",
+      "rot": 0
+    },
+    "sbuck:R2?": {
+      "at": [
+        36.4,
+        43.55
+      ],
+      "why": "feedback divider bottom (10 k)",
+      "rot": 0
+    },
+    "sbuck:R3?": {
+      "at": [
+        36.4,
+        40.0
+      ],
+      "why": "SERVO_EN series 1 k level with EN",
+      "rot": 0
+    },
+    "sbuck:R4?": {
+      "at": [
+        36.4,
+        38.4
+      ],
+      "why": "EN 100 k pull-down",
+      "rot": 0
+    },
+    "bank_l:C?": {
+      "lock": [
+        16.0,
+        31.0
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "C1 470 uF beside the left bank's middle ports, + pad (y 33.7) toward the 6V0 node"
+    },
+    "bank_r:C?": {
+      "lock": [
+        48.0,
+        31.0
+      ],
+      "from_center": false,
+      "rot": 90,
+      "why": "C2 470 uF beside the right bank's middle ports, mirroring C1"
+    },
+    "bank_l:D?": {
+      "at": [
+        13.2,
+        16.5
+      ],
+      "why": "D4 ESD on BUS_DATA where the bus enters the left bank"
+    },
+    "bank_r:D?": {
+      "at": [
+        50.8,
+        15.2
+      ],
+      "why": "D5 ESD on BUS_DATA where the bus enters the right bank"
+    },
+    "lbuck:U?": {
+      "lock": [
+        45.0,
+        53.5
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "U4 TPS56339: GND/SW/VIN on its left, BOOT/EN/FB on its right"
+    },
+    "lbuck:L?": {
+      "lock": [
+        38.3,
+        53.5
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "L2 5.6 uH left of U4: pad 1 (SW) toward the SW pin, pad 2 (5V2) toward its output caps"
+    },
+    "lbuck:C1?": {
+      "lock": [
+        44.9,
+        56.75
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "input 10 uF under U4: VIN pad under the VIN pin, GND pad under the IC's centre"
+    },
+    "lbuck:C2?": {
+      "lock": [
+        44.9,
+        58.85
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "second input 10 uF"
+    },
+    "lbuck:C3?": {
+      "lock": [
+        44.9,
+        60.7
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "input 100 nF"
+    },
+    "lbuck:C4?": {
+      "at": [
+        45.0,
+        50.8
+      ],
+      "why": "bootstrap 100 nF",
+      "rot": 180
+    },
+    "lbuck:R1?": {
+      "at": [
+        49.2,
+        51.2
+      ],
+      "why": "30-Ohm-class boot resistor",
+      "rot": 0
+    },
+    "lbuck:C5?": {
+      "lock": [
+        31.6,
+        52.6
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "output 22 uF; 5V2 pad toward L2"
+    },
+    "lbuck:C6?": {
+      "lock": [
+        31.6,
+        54.8
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "output 22 uF"
+    },
+    "lbuck:R2?": {
+      "at": [
+        49.4,
+        54.45
+      ],
+      "why": "feedback top 54.9 k at FB",
+      "rot": 0
+    },
+    "lbuck:R3?": {
+      "at": [
+        49.4,
+        56.1
+      ],
+      "why": "feedback bottom 10 k",
+      "rot": 0
+    },
+    "sys5v:D1?": {
+      "lock": [
+        33.5,
+        59.4
+      ],
+      "from_center": false,
+      "rot": 180,
+      "why": "D2 SS34 5V2 -> 5V_SYS: anode (pad 2, x 31.5) under L2's output caps"
+    },
+    "sys5v:D2?": {
+      "lock": [
+        53.5,
+        64.0
+      ],
+      "from_center": false,
+      "rot": 270,
+      "why": "D3 SS34 VBUS_DATA -> 5V_SYS beside J2, anode toward the receptacle"
+    },
+    "sys5v:C1?": {
+      "at": [
+        39.0,
+        60.0
+      ],
+      "why": "5V_SYS 22 uF at D2's cathode"
+    },
+    "sys5v:U?": {
+      "at": [
+        40.5,
+        63.0
+      ],
+      "why": "AP2112K 3V3_B2 on 5V_SYS"
+    },
+    "usbd:U?": {
+      "lock": [
+        47.0,
+        67.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "U5 USBLC6 just above J2's data pads"
+    },
+    "bus:U1?": {
+      "lock": [
+        33.0,
+        11.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "U7 74LVC1G126 (TX -> DATA) behind H1's BUS_TX pin"
+    },
+    "bus:U2?": {
+      "lock": [
+        39.0,
+        11.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "U8 74LVC1G125 (DATA -> RX) behind H1's BUS_RX pin"
+    },
+    "bus:Q?": {
+      "at": [
+        28.5,
+        11.0
+      ],
+      "why": "MMBT3906 direction transistor"
+    },
+    "amp:U?": {
+      "lock": [
+        17.5,
+        10.0
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "U9 MAX98357A behind J7 and H2's I2S pins"
+    },
+    "tp:TP1?": {
+      "lock": [
+        12.8,
+        58.3
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "test pad VIN beside the shunt's VIN pad, with room for its word above D1"
+    },
+    "tp:TP2?": {
+      "at": [
+        21.3,
+        33.0
+      ],
+      "why": "test pad 6V0 beside C1's + pad on the 6V0 node"
+    },
+    "tp:TP3?": {
+      "lock": [
+        28.0,
+        50.3
+      ],
+      "from_center": false,
+      "rot": 0,
+      "why": "test pad 5V2 between U3's input caps and L2's output caps, clear of U3's VIN via field"
+    },
+    "tp:TP4?": {
+      "at": [
+        41.4,
+        66.8
+      ],
+      "why": "test pad 5V_SYS at the 5V_SYS diode-OR node"
+    },
+    "tp:TP5?": {
+      "at": [
+        44.6,
+        64.6
+      ],
+      "why": "test pad 3V3_B2 beside the AP2112K"
+    },
+    "tp:TP6?": {
+      "at": [
+        26.0,
+        16.6
+      ],
+      "why": "test pad BUS_DATA beside the bus driver, front middle"
+    },
+    "tp:TP7?": {
+      "at": [
+        29.4,
+        16.6
+      ],
+      "why": "test pad SERVO_EN next to the BUS_DATA pad"
+    },
+    "tp:TP8?": {
+      "at": [
+        22.6,
+        16.6
+      ],
+      "why": "test pad GND ground for the probe, next to the bus pads"
+    }
+  },
+  "route": {
+    "passes": 40,
+    "fanout": true,
+    "solve_s": 600,
+    "why": "the ladder narrows only classes without a current budget; the stated outline is never grown"
+  },
+  "stitch_pitch": 5.0,
+  "silk": {
+    "words": {
+      "bank_l:J1?": "J10 ID2 PAN L",
+      "bank_l:J2?": "J11 ID5 ULID L",
+      "bank_l:J3?": "J12 ID7 LLID L",
+      "bank_l:J4?": "J13 ID9 BROW L",
+      "bank_l:J5?": "J14 ID3 TILT",
+      "bank_r:J1?": "J15 ID1 PAN R",
+      "bank_r:J2?": "J16 ID4 ULID R",
+      "bank_r:J3?": "J17 ID6 LLID R",
+      "bank_r:J4?": "J18 ID8 BROW R",
+      "bank_r:J5?": "J19 SPARE",
+      "pd:J?": "USB-C PWR 9V",
+      "usbd:J?": "USB-C DATA",
+      "harn:J1?": "H1",
+      "harn:J2?": "H2",
+      "amp:J?": "SPK",
+      "pd:D2?": "PD OK",
+      "tp:TP1?": "VIN",
+      "tp:TP2?": "6V0",
+      "tp:TP3?": "5V2",
+      "tp:TP4?": "5V",
+      "tp:TP5?": "3V3",
+      "tp:TP6?": "BUS",
+      "tp:TP7?": "EN",
+      "tp:TP8?": "GND"
+    },
+    "switches": [
+      {
+        "part": "bank_l:J1?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_l:J2?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_l:J3?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_l:J4?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_l:J5?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_r:J1?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_r:J2?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_r:J3?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_r:J4?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "bank_r:J5?",
+        "pads": [
+          "1",
+          "2",
+          "3"
+        ],
+        "words": {
+          "BUS_DATA": "D",
+          "6V0_SERVO": "V",
+          "GND": "G"
+        },
+        "why": "spec 5: the silkscreen must print D / V / G at each port (Waveshare pin order)"
+      },
+      {
+        "part": "amp:J?",
+        "pads": [
+          "1",
+          "2"
+        ],
+        "words": {
+          "SPK_P": "+"
+        },
+        "why": "speaker OUTP on pin 1 (+), OUTN on pin 2; bridge-tied, neither is ground. A switch entry, not silk.polarity, which would also print - beside the grounded mounting tabs; a - at pin 2 does not fit beside the + at 1 mm pitch"
+      }
+    ],
+    "title": [
+      {
+        "text": "Iris Brainstem",
+        "y": 26.0,
+        "size": 2.0,
+        "bold": true
+      },
+      {
+        "text": "B2 power, USB and servo hub",
+        "y": 29.2,
+        "size": 1.0
+      },
+      {
+        "text": "rev {revision}  heypcb-kicad  not fabricated",
+        "y": 31.4,
+        "size": 0.8
+      },
+      {
+        "text": "PD 9V in J1 / data J2 / 6V0 5A servo / 5V2 / INA226 0x40",
+        "y": 33.4,
+        "size": 0.8
+      },
+      {
+        "text": "ports 1 D 2 V 3 G  ULID upper lid  LLID lower lid",
+        "y": 35.4,
+        "size": 0.8
+      },
+      {
+        "text": "CERN-OHL-S-2.0",
+        "y": 37.4,
+        "size": 0.8
+      }
+    ]
+  },
+  "captions": {
+    "place_3d": "Placed: input path down the rear left (USB-C, fuse, shunt), servo buck in the middle, ten 5264 servo ports in two banks, harness and speaker headers on the front edge.",
+    "done_3d": "Iris Brainstem: USB-C PD 9 V in, 6V0 / 5 A servo rail, 5V2 logic rail, INA226, half-duplex SCS bus, 10 servo ports, MAX98357A amp."
+  }
+}
